@@ -6,7 +6,7 @@ export const functions = [
 		key: 'split',
 		params: ['dim', 'delimiter', 'occurrence_number'],
 		helper:
-			'Returns the nth substring divided by a specified delimiter. Index, n, starts from 0'
+			'Returns the nth substring divided by a specified delimiter. Index, n, starts from 0',
 	},
 	{
 		value: 'CONCAT (dim1, dim2)',
@@ -14,7 +14,7 @@ export const functions = [
 		key: 'concat',
 		params: ['dim1', 'dim2'],
 		type: 'function',
-		helper: 'Returns the concatenation of two strings.'
+		helper: 'Returns the concatenation of two strings.',
 	},
 	{
 		value: 'SUB (dim, starting_at, ending_at)',
@@ -23,7 +23,7 @@ export const functions = [
 		params: ['dim', 'starting_at', 'ending_at'],
 		type: 'function',
 		helper:
-			'Returns a substring between specified character indices. Index starts from 0'
+			'Returns a substring between specified character indices. Index starts from 0',
 	},
 	{
 		value: 'EXTRACT (dim, prefix_string, suffix_string)',
@@ -39,14 +39,14 @@ export const functions = [
 export const staticValues = [
 	{
 		value: 'ACCOUNT',
-		label: 'ACCOUNT',
+		label: 'Account',
 		type: 'dimension',
 		key: 'account',
 		helper: 'Account dimension'
 	},
 	{
 		value: 'AD',
-		label: 'AD',
+		label: 'Ad',
 		type: 'dimension',
 		key: 'ad',
 		helper: 'Account ad'

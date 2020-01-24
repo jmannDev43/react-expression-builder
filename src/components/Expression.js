@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
 import Drop from './Dropdown'
 import { TreeNode } from './DataStructure'
 
@@ -10,7 +10,8 @@ const Exp = props => {
 		setExp,
 		options,
 		setValue,
-		onChangeFn
+		onChangeFn,
+		expressionRootClass = ''
 	} = props
 	const [rootFocus, setRootFocus] = useState(false)
 	const expressionRoot = useRef(null)
@@ -21,7 +22,7 @@ const Exp = props => {
 		// create nodes for all children of the given function
 		const { params } = fnData
 		params.forEach(param => {
-			const refNode = new TreeNode({ data: param, type: 'string' })
+			const refNode = new TreeNode({ data: '', type: 'string' })
 			node.addChild(refNode)
 		})
 	}, [fnData, node])
@@ -75,9 +76,9 @@ const Exp = props => {
 			return (
 				<Drop
 					EditorData={EditorData}
-					key={i + param}
 					onChangeFn={onChangeFn}
 					options={options}
+					key={i + param + Math.random().toFixed(2)}
 					node={node.children && node.children[i]}
 					initialFocus={i === 0}
 					placeholder={param}
@@ -95,9 +96,10 @@ const Exp = props => {
 					onFocus={() => setRootFocus(true)}
 					onBlur={() => setRootFocus(false)}
 					tabIndex="0"
+					className={expressionRootClass}
 					style={{ display: 'flex' }}
 				>
-					{fnData.label} ( {PHDom()} ){' '}
+					{fnData.label} ({PHDom()}){' '}
 				</span>
 			</>
 		)

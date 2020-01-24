@@ -3,8 +3,9 @@ import { useCombobox } from 'downshift'
 
 const menuStyles = {
 	backgroundColor: 'white',
-	highlightedIndex: 'lightgray',
-	fontWeight: 'normal'
+	highlightedIndex: '#F2F2F2',
+	fontWeight: 'normal',
+	position: 'absolute'
 }
 
 const DropdownCombobox = props => {
@@ -15,7 +16,9 @@ const DropdownCombobox = props => {
 		handleValueChange,
 		options,
 		validationFn,
-		inputValue
+		inputValue,
+		expressionInputClass = '',
+		typeMap
 	} = props
 	const [inputItems, setInputItems] = useState(options)
 	const [hasFocus, setHasFocus] = useState(false)
@@ -47,7 +50,7 @@ const DropdownCombobox = props => {
 					target: {
 						value:
 							state.highlightedIndex > -1
-								? actionAndChanges.changes.selectedItem.key
+								? actionAndChanges.changes.selectedItem.label
 								: actionAndChanges.changes.inputValue || ''
 					}
 				})
@@ -55,7 +58,7 @@ const DropdownCombobox = props => {
 					...actionAndChanges.changes,
 					// if we had an item highlighted in the previous state.
 					...(state.highlightedIndex > -1 && {
-						inputValue: actionAndChanges.changes.selectedItem.key.toUpperCase()
+						inputValue: actionAndChanges.changes.selectedItem.label
 					})
 				}
 			case useCombobox.stateChangeTypes.InputBlur:
@@ -86,7 +89,7 @@ const DropdownCombobox = props => {
 		onInputValueChange: ({ inputValue }) => {
 			setInputItems(
 				options.filter(item => {
-					return item.key.toLowerCase().startsWith(inputValue.toLowerCase())
+					return item.key.includes(inputValue.toLowerCase())
 				})
 			)
 			// check if the input value is present in any of the option
@@ -109,6 +112,7 @@ const DropdownCombobox = props => {
 				style={{ display: 'inline-block' }}
 				data-type="expression-input-root"
 				{...getComboboxProps()}
+				className={expressionInputClass}
 			>
 				<input
 					{...getInputProps({
@@ -122,9 +126,9 @@ const DropdownCombobox = props => {
 					data-valid={valid}
 					data-value-type={valueType}
 				/>
-				{hasFocus && (
+				{hasFocus && inputItems.length > 0 && (
 					<ul
-						className="expression-list"
+						data-type="expression-list"
 						{...getMenuProps()}
 						style={menuStyles}
 					>
@@ -132,13 +136,15 @@ const DropdownCombobox = props => {
 							<li
 								style={
 									highlightedIndex === index
-										? { backgroundColor: '#bde4ff' }
+										? { backgroundColor: '#F2F2F2' }
 										: {}
 								}
+								data-type="expression-list-item"
 								key={`${item.key}${index}`}
 								{...getItemProps({ item, index })}
 							>
-								{item.label}
+								<span>{item.label}</span>
+								{typeMap && <span> {typeMap[item.type]}</span>}
 							</li>
 						))}
 					</ul>

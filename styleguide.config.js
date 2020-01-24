@@ -1,5 +1,5 @@
 module.exports = {
-	components: 'src/*.js',
+	components: 'src/Test.js',
 	webpackConfig: {
 		module: {
 			rules: [

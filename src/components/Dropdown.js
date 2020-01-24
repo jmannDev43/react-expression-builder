@@ -10,7 +10,10 @@ const Drop = props => {
 		initialFocus = false,
 		options,
 		validationFn,
-		onChangeFn
+		onChangeFn,
+		expressionRootClass,
+		expressionInputClass,
+		typeMap
 	} = props
 
 	const [value, setValue] = useState('')
@@ -29,21 +32,18 @@ const Drop = props => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dropRef.current])
 
-	const fnKeys = options.filter(fn => fn.type === 'function').map(fn => fn.key)
-	const stringRegex = /"([^\\"]|\\")*"/
-	// const handleBlur = e => {
-	// 	if (!value) setDrop(false)
-	// }
-
 	const handleValueChange = e => {
-		const val = e.target.value.toLowerCase()
+		const val = e.target.value
 		// console.log({val})
 		// const newNode = new TreeNode(val)
 		node.setValue({ data: val, type: 'string' })
-		setValue(val)
-		if (fnKeys.includes(val)) {
+		const listData = options.find(f => f.key === val.trim().toLowerCase())
+		if (listData && listData.type === 'function') {
 			setExp(true)
-			node.setValue({ data: options.find(f => f.key === val), type: 'fn' }) // todo
+			node.setValue({ data: listData, type: 'fn' }) // todo
+			setValue(listData.key)
+		} else {
+			setValue(val)
 		}
 		if (onChangeFn) onChangeFn(EditorData)
 		// console.log(EditorData.buildExpression())
@@ -139,6 +139,8 @@ const Drop = props => {
 				inputValue={value}
 				validationFn={validationFn}
 				handleValueChange={handleValueChange}
+				expressionInputClass={expressionInputClass}
+				typeMap={typeMap}
 			/>
 		)
 	}
@@ -151,6 +153,7 @@ const Drop = props => {
 			node={node}
 			onChangeFn={onChangeFn}
 			fname={value}
+			expressionRootClass={expressionRootClass}
 		/>
 	)
 }

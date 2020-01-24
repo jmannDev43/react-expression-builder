@@ -13,6 +13,11 @@ const onChangeFn = st => console.log('change', st)
 const expressionRootClass = 'root-class'
 const expressionInputClass = 'input-class'
 
+const typeMap = {
+	function: 'f(x)',
+	dimension: 'dim'
+}
+
 const validationFn = val => {
 	// mock api request
 	const res = !isNaN(val) || stringRegex.test(val)
@@ -34,6 +39,7 @@ const Root = props => {
 				expressionRootClass={expressionRootClass}
 				expressionInputClass={expressionInputClass}
 				options={options}
+				typeMap={typeMap}
 				placeholder="Enter your expression"
 				initialFocus={true}
 				validationFn={validationFn}
